@@ -31,7 +31,8 @@ namespace Bank
                 Console.WriteLine("2 - Dokonaj wpłaty");
                 Console.WriteLine("3 - Dokonaj wypłaty");
                 Console.WriteLine("4 - Historia transakcji");
-                Console.WriteLine("5 - Zakończ");
+                Console.WriteLine("5 - Weź kredyt");
+                Console.WriteLine("6 - Zakończ");
                 Console.WriteLine("Wybierz opcję (Wpisz numer na klawiaturze): ");
 
                 int choice = int.Parse(Console.ReadLine());
@@ -54,6 +55,9 @@ namespace Bank
                         ViewTransactionHistory(bankAccount);
                         break;
                     case 5:
+                        Loan(bankAccount);
+                        break;
+                    case 6:
                         Console.WriteLine("Dziękujmy za skorzystanie z naszego systemu bankowego :) Do zobaczenia!");
                         System.Threading.Thread.Sleep(5000);
                         Environment.Exit(0);
@@ -105,6 +109,17 @@ namespace Bank
             initialBalance = decimal.Parse(Console.ReadLine());
 
             BankAccount bankAccount = new BankAccount(personalData, initialBalance);
+        }
+        //Wzięcie kredytu
+        public static void Loan(BankAccount bankAccount)
+        {
+            decimal amount;
+            string note;
+            Console.WriteLine("Podaj kwotę kredytu:");
+            amount = decimal.Parse(Console.ReadLine());
+            Console.WriteLine("Podaj notkę:");
+            note = Console.ReadLine();
+            bankAccount.TakeLoan(amount, DateTime.Now, note);
         }
     }
 }

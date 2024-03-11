@@ -10,7 +10,7 @@ namespace Bank
     class BankAccount
     {
         private List<Transaction> AllTransactions = new List<Transaction>();
-        
+
         private static UInt32 accountNumberSeed = 23232323;
         public UInt32 Number { get; }
         public string Owner { get; set; }
@@ -52,11 +52,11 @@ namespace Bank
 
         public void MakeWithdraw(decimal amount, DateTime date, string note)
         {
-            if(amount <= 0)
+            if (amount <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Nie można wypłacić kwoty ujemnej.");
             }
-            if (amount > Balance) 
+            if (amount > Balance)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Brak wystarczających środków na koncie.");
             }
@@ -64,6 +64,22 @@ namespace Bank
             AllTransactions.Add(withdraw);
             Console.WriteLine($"Dokonano wypłaty o kwocie: {amount} zł. Notka: {note}");
 
+        }
+        public void TakeLoan(decimal amount, DateTime date, string note)
+        {
+            if(amount <=0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "Nie można wziąć kredytu o takej wartości.");
+            }
+            if (amount > 1000)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "Nie możesz wziąć więcej niz 1000 zł kredytu.");
+            }
+            double interestAmount = Math.Round(Convert.ToDouble(amount) * 1.32,2);
+            Transaction loan = new Transaction(amount, date, note, "Kredyt");
+            AllTransactions.Add(loan);
+            Console.WriteLine($"Wziąłęś kredyt w kwocie {amount} zł z oprocentowaniem 32%. Notka: {note}");
+            Console.WriteLine($"Kwota, którą musisz oddać to {interestAmount} zł");
         }
 
         public void ListTransactionHistory()
